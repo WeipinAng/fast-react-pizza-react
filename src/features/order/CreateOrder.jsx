@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Form } from "react-router-dom";
+import { Form, redirect } from "react-router-dom";
 import { createOrder } from "../../services/apiRestaurant";
 
 // https://uibakery.io/regex-library/phone-number
@@ -99,7 +99,7 @@ export async function action({ request }) {
 
     const newOrder = await createOrder(order);
 
-    return null;
+    return redirect(`/order/${newOrder.id}`);
 }
 
 export default CreateOrder;
