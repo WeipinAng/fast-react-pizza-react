@@ -2,9 +2,10 @@ import { useState } from "react";
 import { Form, redirect, useActionData, useNavigation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { createOrder } from "../../services/apiRestaurant";
-import { getCart } from "../cart/cartSlice";
+import { clearCart, getCart } from "../cart/cartSlice";
 import Button from "../../ui/Button";
 import EmptyCart from "../cart/EmptyCart";
+import store from "../../store";
 
 // https://uibakery.io/regex-library/phone-number
 const isValidPhone = (str) =>
@@ -118,6 +119,9 @@ export async function action({ request }) {
     if (Object.keys(errors).length > 0) return errors;
 
     const newOrder = await createOrder(order);
+
+    // do not overuse as it will deactivate a couple of performance optimizations of redux on this page
+    store.dispatch(clearCart());
 
     return redirect(`/order/${newOrder.id}`);
 }
