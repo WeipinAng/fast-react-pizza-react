@@ -2,7 +2,8 @@ import { useState } from "react";
 import { Form, redirect, useActionData, useNavigation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { createOrder } from "../../services/apiRestaurant";
-import { clearCart, getCart } from "../cart/cartSlice";
+import { clearCart, getCart, getTotalCartPrice } from "../cart/cartSlice";
+import { formatCurrency } from "../../utils/helpers";
 import Button from "../../ui/Button";
 import EmptyCart from "../cart/EmptyCart";
 import store from "../../store";
@@ -22,6 +23,9 @@ function CreateOrder() {
 
     // const [withPriority, setWithPriority] = useState(false);
     const cart = useSelector(getCart);
+    const totalCartPrice = useSelector(getTotalCartPrice);
+    const priorityPrice = 0;
+    const totalPrice = totalCartPrice + priorityPrice;
 
     if (!cart.length) return <EmptyCart />;
 
@@ -94,7 +98,9 @@ function CreateOrder() {
                         value={JSON.stringify(cart)}
                     />
                     <Button disabled={isSubmitting} type="primary">
-                        {isSubmitting ? "Placing order..." : "Order now"}
+                        {isSubmitting
+                            ? "Placing order..."
+                            : `Order now from ${formatCurrency(totalPrice)}`}
                     </Button>
                 </div>
             </Form>
