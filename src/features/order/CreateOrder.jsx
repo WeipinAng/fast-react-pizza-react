@@ -95,7 +95,7 @@ function CreateOrder() {
                     </div>
 
                     {!position.latitude && !position.longitude && (
-                        <span className="absolute right-[3px] top-[3px] md:right-[5px] md:top-[5px] z-50">
+                        <span className="absolute right-[3px] top-[35px] sm:top-[3px] md:right-[5px] md:top-[5px] z-50">
                             <Button
                                 disabled={isLoadingAddress}
                                 type="small"
